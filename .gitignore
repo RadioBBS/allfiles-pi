@@ -9,14 +9,18 @@
 # Lizenz:      MIT
 # Upstream:    allfiles.sh / owrtcollect.sh (sshkey / RadioBBS)
 # Erstellt mit: Cursor Grok 4.6
-# Autor:       (sshkey) / RadioBBS
+# Autor:       (FFHB) / RadioBBS
 
 # SSH-Schluessel und Zugangsdaten: NIEMALS committen
-*.ppk
 *.pub
+*.ppk
+*.pem
+*.key
 sshkey*
 id_rsa*
 id_ed25519*
+id_ecdsa*
+authorized_keys
 iplist.txt
 
 # Lokale Arbeitsverzeichnisse (Styleguide)
