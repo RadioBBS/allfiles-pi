@@ -1,0 +1,25 @@
+# allfiles-pi – Abhaengigkeitsdatei (kein Python, keine Paketzeilen).
+#
+# Projekt:     allfiles-pi
+# Modul:       requirements.txt
+# Version:     1.4.0
+# Stand:       2026-08-22
+# Abhaengig:   bash >= 4, OpenSSH-Client (ssh); optional puttygen, sshpass
+# Bezug:       requirements.txt (leer – kein Python)
+# Lizenz:      MIT
+# Upstream:    allfiles.sh / owrtcollect.sh (FFHB / RadioBBS)
+# Erstellt mit: Cursor Grok 4.6
+# Autor:       (FFHB) / RadioBBS
+#
+# Historie
+# --------
+# Version 1.4.0 – 2026-08-22 – Erste Fassung im eigenen Git-Projekt.
+#
+# Dieses Projekt nutzt kein Python; die Datei bleibt ohne Paketzeilen.
+# Fester Installationsweg (No-Op, pip ignoriert Kommentarzeilen):
+#
+#     python -m pip install -r requirements.txt
+#
+# Systemvoraussetzungen (per apt auf Debian/Ubuntu/WSL):
+#
+#     sudo apt install openssh-client putty-tools sshpass

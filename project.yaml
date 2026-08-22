@@ -1,0 +1,50 @@
+# allfiles-pi – Projektmetadaten (maschinenlesbar, YAML).
+#
+# Projekt:     allfiles-pi
+# Modul:       project.yaml
+# Version:     1.4.0
+# Stand:       2026-08-22
+# Abhaengig:   bash >= 4, OpenSSH-Client (ssh); optional puttygen, sshpass
+# Bezug:       requirements.txt (leer – kein Python)
+# Lizenz:      MIT
+# Upstream:    allfiles.sh / owrtcollect.sh (FFHB / RadioBBS)
+# Erstellt mit: Cursor Grok 4.6
+# Autor:       (FFHB) / RadioBBS
+
+projekt: allfiles-pi
+zweck: Raspberry-Pi-Daten per SSH sammeln und lokal speichern
+version: 1.4.0
+stand: 2026-08-22
+lizenz: MIT
+autor: (FFHB) / RadioBBS
+erstellt_mit: Cursor Grok 4.6
+upstream: allfiles.sh / owrtcollect.sh (FFHB / RadioBBS)
+bezug: requirements.txt (leer – kein Python)
+
+abhaengigkeiten:
+  - bash >= 4
+  - OpenSSH-Client (ssh), ping, date, mkdir
+  - optional: puttygen (putty-tools, fuer .ppk)
+  - optional: sshpass (fuer Passwort-Login -P)
+
+module:
+  - pfad: allfiles-pi.sh
+    zweck: Hauptskript (Sammellauf per SSH)
+    shell: WSL/Linux (bash), Ausfuehrung mit sudo
+
+historie:
+  - version: 1.0.0
+    datum: 2026-08-22
+    beschreibung: Erste Version, allfiles.sh-Schleife fuer Raspberry Pi
+  - version: 1.1.0
+    datum: 2026-08-22
+    beschreibung: IPv6-Ziele, -Key fuer ffhb.ppk, -U/-P
+  - version: 1.2.0
+    datum: 2026-08-22
+    beschreibung: Erreichbarkeit vor SSH, -6 vor der Adresse, [] optional
+  - version: 1.3.0
+    datum: 2026-08-22
+    beschreibung: Tabellen mit sed und column -t ausgerichtet, sudo in Beispielen
+  - version: 1.4.0
+    datum: 2026-08-22
+    beschreibung: Eigenes Git-Projekt unter GIT-Projects, Projektdateien ergaenzt

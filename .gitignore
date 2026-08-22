@@ -1,0 +1,41 @@
+# allfiles-pi – Git-Ausschlussliste (Schluessel und Sammelergebnisse lokal).
+#
+# Projekt:     allfiles-pi
+# Modul:       .gitignore
+# Version:     1.4.0
+# Stand:       2026-08-22
+# Abhaengig:   bash >= 4, OpenSSH-Client (ssh); optional puttygen, sshpass
+# Bezug:       requirements.txt (leer – kein Python)
+# Lizenz:      MIT
+# Upstream:    allfiles.sh / owrtcollect.sh (FFHB / RadioBBS)
+# Erstellt mit: Cursor Grok 4.6
+# Autor:       (FFHB) / RadioBBS
+
+# SSH-Schluessel und Zugangsdaten: NIEMALS committen
+*.ppk
+*.pub
+ffhb*
+id_rsa*
+id_ed25519*
+iplist.txt
+
+# Lokale Arbeitsverzeichnisse (Styleguide)
+__local__/
+__scratch__/
+__testdata__/
+
+# Sammelergebnisse und Logs (nur lokal)
+*.log
+PiCheck.txt
+PiConfig.txt
+PiHardware.txt
+PiNetwork.txt
+PiPackages.txt
+Firewall_Netfilter.txt
+sammel/
+ergebnisse/
+
+# Editor/Betriebssystem
+.vscode/
+Thumbs.db
+Desktop.ini
