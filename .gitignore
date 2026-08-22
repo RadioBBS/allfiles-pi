@@ -2,19 +2,19 @@
 #
 # Projekt:     allfiles-pi
 # Modul:       .gitignore
-# Version:     1.4.0
+# Version:     1.5.0
 # Stand:       2026-08-22
 # Abhaengig:   bash >= 4, OpenSSH-Client (ssh); optional puttygen, sshpass
 # Bezug:       requirements.txt (leer – kein Python)
 # Lizenz:      MIT
-# Upstream:    allfiles.sh / owrtcollect.sh (FFHB / RadioBBS)
+# Upstream:    allfiles.sh / owrtcollect.sh (sshkey / RadioBBS)
 # Erstellt mit: Cursor Grok 4.6
-# Autor:       (FFHB) / RadioBBS
+# Autor:       (sshkey) / RadioBBS
 
 # SSH-Schluessel und Zugangsdaten: NIEMALS committen
 *.ppk
 *.pub
-ffhb*
+sshkey*
 id_rsa*
 id_ed25519*
 iplist.txt

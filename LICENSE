@@ -26,7 +26,7 @@ SOFTWARE.
 #
 # Projekt:     allfiles-pi
 # Modul:       LICENSE
-# Version:     1.4.0
+# Version:     1.5.0
 # Stand:       2026-08-22
 # Abhaengig:   bash >= 4, OpenSSH-Client (ssh); optional puttygen, sshpass
 # Bezug:       requirements.txt (leer – kein Python)

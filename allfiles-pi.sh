@@ -1,10 +1,10 @@
 #!/usr/bin/env bash
 #
-# Linux-Shell – Raspberry-Pi-Daten per SSH sammeln und lokal speichern.
+# allfiles-pi – Raspberry-Pi-Daten per SSH sammeln und lokal speichern.
 #
 # Projekt:     allfiles-pi
 # Modul:       allfiles-pi.sh
-# Version:     1.4.0
+# Version:     1.5.0
 # Stand:       2026-08-22
 # Abhaengig:   bash ≥ 4, OpenSSH-Client (ssh); optional puttygen, sshpass
 # Bezug:       requirements.txt (nicht vorhanden – keine Python-Abhaengigkeiten)
@@ -20,18 +20,18 @@
 # Alle Ausgaben werden ausschliesslich lokal gespeichert. Auf dem Pi
 # werden keine Dateien geschrieben.
 #
-# Der oeffentliche Schluessel ffhb.pub muss auf dem Pi in
+# Der oeffentliche Schluessel sshkey.pub muss auf dem Pi in
 # /root/.ssh/authorized_keys liegen. Lokal wird der passende private
-# Schluessel verwendet (OpenSSH-Datei "ffhb" oder PuTTY "ffhb.ppk").
+# Schluessel verwendet (OpenSSH-Datei "sshkey" oder PuTTY "sshkey.ppk").
 # Eine .pub-Datei allein reicht fuer den Login nicht.
 #
 # Historie
 # --------
 # Version 1.0.0 – 2026-08-22 – Erste Version: allfiles.sh-Schleife fuer
-#                              Raspberry Pi, SSH-Key ffhb.pub/.ppk, CLI
+#                              Raspberry Pi, SSH-Key sshkey.pub/.ppk, CLI
 #                              gemaess Styleguide, lokale Protokolle.
 # Version 1.1.0 – 2026-08-22 – IPv6-Ziele (Klammerung, -4/-6), -Key fuer
-#                              ffhb.ppk im Skriptverzeichnis, -U/-P.
+#                              sshkey.ppk im Skriptverzeichnis, -U/-P.
 # Version 1.2.0 – 2026-08-22 – Erreichbarkeit vor SSH; -6 vor der Adresse;
 #                              eckige Klammern bei IPv6 optional.
 # Version 1.3.0 – 2026-08-22 – Tabellarische Ausgaben (iptables, ip6tables,
@@ -39,17 +39,20 @@
 #                              sudo in den Beispielaufrufen vorangestellt.
 # Version 1.4.0 – 2026-08-22 – Eigenes Git-Projekt allfiles-pi unter
 #                              GIT-Projects; Projektdateien ergaenzt.
+# Version 1.5.0 – 2026-08-22 – Beispielname sshkey statt realem Keynamen;
+#                              OpenSSH-Key-Uebergabe (-Key/-i) dokumentiert.
 #
 # Aufruf / Nutzung
 # ----------------
-#   sudo ./allfiles-pi.sh 192.168.178.42 -U root -Key ffhb.ppk
+#   sudo ./allfiles-pi.sh 192.168.178.42 -U root -Key sshkey.ppk
+#   sudo ./allfiles-pi.sh 192.168.178.42 -Key ./sshkey        # OpenSSH-Key
 #   sudo ./allfiles-pi.sh -6 [2a06:8782:ffbb:42:3d5:2865:d9e5:57eb]
 #   sudo ./allfiles-pi.sh -6 2a06:8782:ffbb:42:3d5:2865:d9e5:57eb
 #   sudo ./allfiles-pi.sh --IPListe ./iplist.txt -o ./ergebnisse
 #   ./allfiles-pi.sh --help
 #
 
-VERSION="1.4.0"
+VERSION="1.5.0"
 VERSION_DATUM="2026-08-22"
 SKRIPTNAME="${0##*/}"
 END_PROMPT="Programmende: Hit any Key or Enter"
@@ -63,8 +66,8 @@ DEFAULT_PORT="22"
 DEFAULT_HOST="raspberrypi.local"
 DEFAULT_IPv4=""
 DEFAULT_IPv6=""
-DEFAULT_SSHKEY="ffhb.pub"
-DEFAULT_PPK="ffhb.ppk"
+DEFAULT_SSHKEY="sshkey.pub"
+DEFAULT_PPK="sshkey.ppk"
 DEFAULT_SSHPassphrase=""
 DEFAULT_PWD=""
 
@@ -233,7 +236,7 @@ zeige_version() {
 	# Beispiel:     zeige_version
 	#
 	echo "allfiles-pi $VERSION ($VERSION_DATUM)"
-	echo "Sammelt Raspberry-Pi-Daten per SSH (root, Schluessel ffhb) und speichert lokal."
+	echo "Sammelt Raspberry-Pi-Daten per SSH (root, Schluessel sshkey) und speichert lokal."
 }
 
 zeige_hilfe() {
@@ -247,13 +250,16 @@ zeige_hilfe() {
 	cat << EOF
 allfiles-pi $VERSION ($VERSION_DATUM)
 Sammelt Raspberry-Pi-System-, Hardware- und Konfigurationsdaten per SSH.
-Login als root mit dem Schluesselpaar ffhb (oeffentlich: ffhb.pub).
-Privater Key: ffhb.ppk im Skriptverzeichnis, Uebergabe mit -Key.
+Login als root mit einem SSH-Schluesselpaar (Beispielname: sshkey).
+Der private Schluessel wird mit -Key uebergeben und darf PuTTY-Format
+(sshkey.ppk, wird via puttygen konvertiert) oder OpenSSH-Format
+(Datei sshkey, auch ueber -i) haben. Eine .pub-Datei wird erkannt und
+der private Partner daneben gesucht.
 IPv4- und IPv6-Adressen werden unterstuetzt. Auf dem Pi wird nichts geschrieben.
 
 Verwendung:
   sudo $0 [host] [OPTIONEN]
-  sudo $0 -4 -6 -U <user> -P <passwort> -Key ffhb.ppk
+  sudo $0 -4 -6 -U <user> -P <passwort> -Key sshkey.ppk
   sudo $0 --IPListe <datei> [OPTIONEN]
   $0 --help | -h
   $0 --version
@@ -288,15 +294,16 @@ Parameter:
   -p <port>            SSH-Port
                        Typ: Zahl, Standard: $DEFAULT_PORT
                        Beispiel: -p 22
-  -Key <datei>         Privater Schluessel (PPK oder OpenSSH), neben dem Skript
-                       Typ: Pfad, Standard: $DEFAULT_PPK
-                       Beispiel: -Key ffhb.ppk
+  -Key <datei>         Privater Schluessel (PuTTY .ppk oder OpenSSH)
+                       Typ: Pfad, Standard: $DEFAULT_PPK (neben dem Skript)
+                       Beispiel: -Key sshkey.ppk
+                       Beispiel: -Key ./sshkey   (OpenSSH-Key)
   -i <datei>           OpenSSH-IdentityFile oder .pub (dann privater Partner)
                        Typ: Pfad, Standard: $DEFAULT_SSHKEY (neben dem Skript)
-                       Beispiel: -i ./ffhb
+                       Beispiel: -i ./sshkey
   -ppk, --ppk <datei>  Alias fuer -Key (PuTTY .ppk)
                        Typ: Pfad, Standard: $DEFAULT_PPK
-                       Beispiel: -ppk ./ffhb.ppk
+                       Beispiel: -ppk ./sshkey.ppk
   -P <text>            Login-Passwort ODER PPK-Passphrase
                        Typ: String, Standard: (leer)
                        Beispiel: -P geheim
@@ -333,12 +340,13 @@ Ausgabedateien (lokal, ASCII-safe):
   PiPackages.txt           dpkg/apt und systemd-Units
 
 Beispiele:
-  sudo $0 -6 '[2a06:8782:ffbb:42:3d5:2865:d9e5:57eb]' -U root -Key ffhb.ppk
-  sudo $0 -6 2a06:8782:ffbb:42:3d5:2865:d9e5:57eb -Key ffhb.ppk
-  sudo $0 -4 192.168.178.42 -U root -Key ffhb.ppk --log
-  sudo $0 raspberrypi.local -4 -6 -Key ffhb.ppk -o ./sammel
+  sudo $0 -6 '[2a06:8782:ffbb:42:3d5:2865:d9e5:57eb]' -U root -Key sshkey.ppk
+  sudo $0 -6 2a06:8782:ffbb:42:3d5:2865:d9e5:57eb -Key sshkey.ppk
+  sudo $0 -4 192.168.178.42 -U root -Key sshkey.ppk --log
+  sudo $0 -4 192.168.178.42 -Key ./sshkey
+  sudo $0 raspberrypi.local -4 -6 -i ./sshkey -o ./sammel
   sudo $0 --IPListe ./iplist.txt -6 -o ./sammel --log
-  sudo $0 -Key ffhb.ppk -E
+  sudo $0 -Key sshkey.ppk -E
 
 Hinweise:
   Voraussetzungen: bash, ssh, ping, date, mkdir; bei .ppk: puttygen (putty-tools);
@@ -348,8 +356,9 @@ Hinweise:
   (Paket bsdmainutils), bleibt die Originalausgabe erhalten.
   Vor SSH wird die Erreichbarkeit per ping (IPv6: ping -6) geprueft.
   IPv6-Klammern sind optional; in der Shell '[...]' quoten, damit [] nicht globt.
-  ffhb.pub muss auf dem Pi in /root/.ssh/authorized_keys stehen.
-  Lokal: -Key ffhb.ppk (Datei liegt im Skriptverzeichnis).
+  sshkey.pub muss auf dem Pi in /root/.ssh/authorized_keys stehen.
+  Lokal: -Key sshkey.ppk oder -Key/-i ./sshkey (OpenSSH); ohne Angabe
+  wird $DEFAULT_PPK bzw. $DEFAULT_SSHKEY im Skriptverzeichnis gesucht.
   Falsche Parameter fuehren zu einer Fehlermeldung und Abbruch.
 EOF
 }
@@ -502,7 +511,7 @@ ist_oeffentlicher_schluessel() {
 	# Parameter:    $1 = Dateipfad
 	# Rueckgabewert: 0 wenn Public Key, sonst 1
 	# Fehlerfaelle: Datei unlesbar -> 1
-	# Beispiel:     ist_oeffentlicher_schluessel ./ffhb.pub
+	# Beispiel:     ist_oeffentlicher_schluessel ./sshkey.pub
 	#
 	[ -f "$1" ] || return 1
 	_kopf=$(head -n 1 "$1" 2>/dev/null) || return 1
@@ -523,7 +532,7 @@ ist_ppk_datei() {
 	# Parameter:    $1 = Dateipfad
 	# Rueckgabewert: 0 wenn PPK, sonst 1
 	# Fehlerfaelle: Datei unlesbar -> 1
-	# Beispiel:     ist_ppk_datei ./ffhb.ppk
+	# Beispiel:     ist_ppk_datei ./sshkey.ppk
 	#
 	[ -f "$1" ] || return 1
 	case "$1" in
@@ -538,7 +547,7 @@ finde_privaten_partner() {
 	# Parameter:    $1 = Pfad zur Public-Key-Datei
 	# Rueckgabewert: privater Pfad auf stdout, Exit 0; sonst 1
 	# Fehlerfaelle: kein privater Partner gefunden
-	# Beispiel:     finde_privaten_partner ./ffhb.pub
+	# Beispiel:     finde_privaten_partner ./sshkey.pub
 	#
 	_pub="$1"
 	_dir=$(dirname -- "$_pub")
@@ -604,12 +613,12 @@ setze_identitaet_aus_datei() {
 	# Parameter:    $1 = aufgeloester Dateipfad
 	# Rueckgabewert: 0 bei gesetzter Identitaet
 	# Fehlerfaelle: .pub ohne privaten Partner
-	# Beispiel:     setze_identitaet_aus_datei ./ffhb.pub
+	# Beispiel:     setze_identitaet_aus_datei ./sshkey.pub
 	#
 	_datei="$1"
 	if ist_oeffentlicher_schluessel "$_datei"; then
 		_privat=$(finde_privaten_partner "$_datei") || \
-			beende_mit_fehler 3 "ffhb.pub ist oeffentlich. Privater Key fehlt (ffhb oder ffhb.ppk neben dem Skript)."
+			beende_mit_fehler 3 "$_datei ist oeffentlich. Privater Partner fehlt (z. B. sshkey oder sshkey.ppk daneben)."
 		info_meldung "Public Key $_datei -> privater Schluessel $_privat"
 		_datei="$_privat"
 	fi
@@ -629,13 +638,13 @@ setze_identitaet_aus_datei() {
 
 bereite_authentifizierung() {
 	#
-	# Beschreibung: Waehlt Auth: OpenSSH-Key, PPK (ffhb) oder Passwort.
+	# Beschreibung: Waehlt Auth: OpenSSH-Key, PPK (sshkey) oder Passwort.
 	# Parameter:    keine
 	# Rueckgabewert: setzt auth_modus und ggf. ssh_identitaet
 	# Fehlerfaelle: fehlende Datei/Tools
 	# Beispiel:     bereite_authentifizierung
 	#
-	# Prioritaet: -Key/-ppk > -i > DEFAULT_PPK (Skriptverzeichnis) > ffhb.pub-Partner
+	# Prioritaet: -Key/-ppk > -i > DEFAULT_PPK (Skriptverzeichnis) > sshkey.pub-Partner
 	if [ -n "$ppk_datei" ]; then
 		ppk_datei=$(loese_dateipfad "$ppk_datei")
 		[ -f "$ppk_datei" ] || beende_mit_fehler 3 "Key-Datei nicht gefunden: $ppk_datei"
@@ -1498,7 +1507,7 @@ parse_argumente() {
 				shift 2
 				;;
 			-Key|--Key|-key)
-				[ -n "${2:-}" ] || beende_mit_fehler 2 "Parameter -Key erfordert eine Schluesseldatei (Beispiel: -Key ffhb.ppk)"
+				[ -n "${2:-}" ] || beende_mit_fehler 2 "Parameter -Key erfordert eine Schluesseldatei (Beispiel: -Key sshkey.ppk)"
 				_key_cli="$2"
 				shift 2
 				;;

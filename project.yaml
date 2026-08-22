@@ -2,23 +2,23 @@
 #
 # Projekt:     allfiles-pi
 # Modul:       project.yaml
-# Version:     1.4.0
+# Version:     1.5.0
 # Stand:       2026-08-22
 # Abhaengig:   bash >= 4, OpenSSH-Client (ssh); optional puttygen, sshpass
 # Bezug:       requirements.txt (leer – kein Python)
 # Lizenz:      MIT
-# Upstream:    allfiles.sh / owrtcollect.sh (FFHB / RadioBBS)
+# Upstream:    allfiles.sh / owrtcollect.sh (sshkey / RadioBBS)
 # Erstellt mit: Cursor Grok 4.6
-# Autor:       (FFHB) / RadioBBS
+# Autor:       (sshkey) / RadioBBS
 
 projekt: allfiles-pi
 zweck: Raspberry-Pi-Daten per SSH sammeln und lokal speichern
-version: 1.4.0
+version: 1.5.0
 stand: 2026-08-22
 lizenz: MIT
-autor: (FFHB) / RadioBBS
+autor: (sshkey) / RadioBBS
 erstellt_mit: Cursor Grok 4.6
-upstream: allfiles.sh / owrtcollect.sh (FFHB / RadioBBS)
+upstream: allfiles.sh / owrtcollect.sh (sshkey / RadioBBS)
 bezug: requirements.txt (leer – kein Python)
 
 abhaengigkeiten:
@@ -38,7 +38,7 @@ historie:
     beschreibung: Erste Version, allfiles.sh-Schleife fuer Raspberry Pi
   - version: 1.1.0
     datum: 2026-08-22
-    beschreibung: IPv6-Ziele, -Key fuer ffhb.ppk, -U/-P
+    beschreibung: IPv6-Ziele, -Key fuer sshkey.ppk, -U/-P
   - version: 1.2.0
     datum: 2026-08-22
     beschreibung: Erreichbarkeit vor SSH, -6 vor der Adresse, [] optional
@@ -48,3 +48,6 @@ historie:
   - version: 1.4.0
     datum: 2026-08-22
     beschreibung: Eigenes Git-Projekt unter GIT-Projects, Projektdateien ergaenzt
+  - version: 1.5.0
+    datum: 2026-08-22
+    beschreibung: Beispielname sshkey statt realem Keynamen, OpenSSH-Key dokumentiert
