@@ -1,0 +1,31 @@
+# allfiles-pi – Projektdefinition (Bash; pyproject fuer einheitliche Produktstruktur).
+#
+# Projekt:     allfiles-pi
+# Modul:       pyproject.toml
+# Version:     1.5.0
+# Stand:       2026-08-22
+# Abhaengig:   bash >= 4, OpenSSH-Client (ssh); optional puttygen, sshpass
+# Bezug:       requirements.txt (leer – kein Python)
+# Lizenz:      MIT
+# Upstream:    allfiles.sh / owrtcollect.sh (FFHB / RadioBBS)
+# Erstellt mit: Cursor Grok 4.6
+# Autor:       (FFHB) / RadioBBS
+#
+# Historie
+# --------
+# Version 1.5.0 – 2026-08-24 – Nachzug pyproject.toml (Software-Standard 1.2.0).
+#
+# Kein Python-Paket. Keine pip-Abhaengigkeiten.
+
+[project]
+name = "allfiles-pi"
+version = "1.5.0"
+description = "Raspberry-Pi-Daten per SSH sammeln und lokal speichern."
+readme = "README.md"
+license = { text = "MIT" }
+authors = [{ name = "(FFHB) / RadioBBS" }]
+dependencies = []
+
+[project.urls]
+Homepage = "https://github.com/RadioBBS/allfiles-pi"
+Repository = "https://github.com/RadioBBS/allfiles-pi"
