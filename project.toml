@@ -7,19 +7,19 @@
 # Abhaengig:   bash >= 4, OpenSSH-Client (ssh); optional puttygen, sshpass
 # Bezug:       requirements.txt (leer – kein Python)
 # Lizenz:      MIT
-# Upstream:    allfiles.sh / owrtcollect.sh (sshkey / RadioBBS)
+# Upstream:    allfiles.sh / owrtcollect.sh (FFHB / RadioBBS)
 # Erstellt mit: Cursor Grok 4.6
-# Autor:       (sshkey) / RadioBBS
+# Autor:       (FFHB) / RadioBBS
 
 [projekt]
 name = "allfiles-pi"
-zweck = "Raspberry-Pi-Daten per SSH sammeln und lokal speichern"
+zweck = "Raspberry-Pi-Daten per SSH sammeln und lokal speichern."
 version = "1.5.0"
 stand = "2026-08-22"
 lizenz = "MIT"
-autor = "(sshkey) / RadioBBS"
+autor = "(FFHB) / RadioBBS"
 erstellt_mit = "Cursor Grok 4.6"
-upstream = "allfiles.sh / owrtcollect.sh (sshkey / RadioBBS)"
+upstream = "allfiles.sh / owrtcollect.sh (FFHB / RadioBBS)"
 bezug = "requirements.txt (leer – kein Python)"
 abhaengigkeiten = [
     "bash >= 4",

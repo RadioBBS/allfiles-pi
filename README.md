@@ -10,9 +10,9 @@ Stand:       2026-08-22
 Abhaengig:   bash >= 4, OpenSSH-Client (ssh); optional puttygen, sshpass
 Bezug:       requirements.txt (leer – kein Python)
 Lizenz:      MIT
-Upstream:    allfiles.sh / owrtcollect.sh (sshkey / RadioBBS)
+Upstream:    allfiles.sh / owrtcollect.sh (FFHB / RadioBBS)
 Erstellt mit: Cursor Grok 4.6
-Autor:       (sshkey) / RadioBBS
+Autor:       (FFHB) / RadioBBS
 ```
 
 ## Beschreibung
@@ -26,14 +26,14 @@ ip6tables, ss, netstat) werden mit `sed` und `column -t` ausgerichtet.
 
 ## Ausgabedateien (je Zielhost ein Verzeichnis)
 
-| Datei | Inhalt |
-|---|---|
-| `PiCheck.txt` | System, Benutzer, Dienste, Logs |
-| `PiConfig.txt` | /etc, /boot, SSH-Keys, Sudoers |
-| `PiHardware.txt` | Raspberry-Hardware (vcgencmd, Device-Tree) |
-| `PiNetwork.txt` | Adressen, Routen, WLAN, DNS |
-| `Firewall_Netfilter.txt` | iptables/nft/ufw |
-| `PiPackages.txt` | dpkg/apt und systemd-Units |
+| Datei                    | Inhalt                                     |
+|--------------------------|--------------------------------------------|
+| `PiCheck.txt`            | System, Benutzer, Dienste, Logs            |
+| `PiConfig.txt`           | /etc, /boot, SSH-Keys, Sudoers             |
+| `PiHardware.txt`         | Raspberry-Hardware (vcgencmd, Device-Tree) |
+| `PiNetwork.txt`          | Adressen, Routen, WLAN, DNS                |
+| `Firewall_Netfilter.txt` | iptables/nft/ufw                           |
+| `PiPackages.txt`         | dpkg/apt und systemd-Units                 |
 
 ## Voraussetzungen
 
@@ -45,6 +45,27 @@ ip6tables, ss, netstat) werden mit `sed` und `column -t` ausgerichtet.
   (`sshkey` oder `sshkey.ppk`) liegt lokal neben dem Skript oder wird
   mit `-Key` uebergeben. Schluesseldateien gehoeren NICHT ins Repo
   (siehe .gitignore).
+
+
+## Installation
+
+Skript kopieren (LF-Zeilenenden) und ausfuehrbar machen:
+
+```bash
+chmod +x allfiles-pi.sh
+```
+
+Zusatzsoftware installieren, zum Beispiel:
+
+```bash
+sudo apt-get install openssh-client sshpass putty-tools
+```
+
+Abhaengigkeitsdatei auf dem Entwicklungsrechner (auch ohne Paketzeilen):
+
+```bash
+python -m pip install -r requirements.txt
+```
 
 ## Aufruf / Nutzung
 
